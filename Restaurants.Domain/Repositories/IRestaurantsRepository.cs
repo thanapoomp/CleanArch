@@ -8,5 +8,6 @@ namespace Restaurants.Domain.Repositories
         Task<Restaurant?> GetById(int id);
         Task<int> Create(Restaurant entity);
         Task Delete(Restaurant restaurant);
+        Task SaveChanges();
     }
 }

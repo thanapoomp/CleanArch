@@ -36,5 +36,10 @@ namespace Restaurants.Infrastructure.Repositories
             var restaurant = await dbContext.Restaurants.Where(x => x.Id == id).FirstOrDefaultAsync();
             return restaurant;
         }
+
+        public async Task SaveChanges()
+        {
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
