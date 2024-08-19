@@ -57,5 +57,13 @@ namespace Restaurants.API.Controllers
             await mediator.Send(command);
             return NoContent();
         }
+
+        [HttpGet]
+        [Route("/testSlow/{sec}")]
+        public IActionResult testSlow(int sec)
+        {
+            Thread.Sleep(sec);
+            return NoContent();
+        }
     }
 }
