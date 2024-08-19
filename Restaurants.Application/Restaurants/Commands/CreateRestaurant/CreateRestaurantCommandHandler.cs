@@ -17,7 +17,7 @@ namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant
     {
         public async Task<int> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Creating restaurant");
+            logger.LogInformation("Creating restaurant : {@Restaurant}", request);
             var objToCreate = mapper.Map<Restaurant>(request);
             int id = await restaurantsRepository.Create(objToCreate);
             return id;
