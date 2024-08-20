@@ -19,7 +19,7 @@ namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant
         {
             logger.LogInformation("Creating restaurant : {@Restaurant}", request);
             var objToCreate = mapper.Map<Restaurant>(request);
-            int id = await restaurantsRepository.Create(objToCreate);
+            int id = await restaurantsRepository.CreateAsync(objToCreate);
             return id;
         }
     }

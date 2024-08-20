@@ -20,14 +20,14 @@ namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant
         {
             logger.LogInformation("Updating restaurant id : {RestaurantId} with {@UpdatedRestaurant}",request.Id,request);
 
-            var restaurant = await restaurantsRepository.GetById(request.Id);
+            var restaurant = await restaurantsRepository.GetByIdAsync(request.Id);
             if (restaurant == null)
             {
-                throw new NotFoundException("Restaurant", request.Id.ToString());
+                throw new NotFoundException(nameof(Restaurant), request.Id.ToString());
             }
 
             mapper.Map(request,restaurant);
-            await restaurantsRepository.SaveChanges();
+            await restaurantsRepository.SaveChangesAsync();
         }
     }
 }

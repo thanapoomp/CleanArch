@@ -12,14 +12,14 @@ namespace Restaurants.Infrastructure.Repositories
 {
     internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaurantsRepository
     {
-        public async Task<int> Create(Restaurant entity)
+        public async Task<int> CreateAsync(Restaurant entity)
         {
             dbContext.Restaurants.Add(entity);
             await dbContext.SaveChangesAsync();
             return entity.Id;
         }
 
-        public async Task Delete(Restaurant restaurant)
+        public async Task DeleteAsync(Restaurant restaurant)
         {
             dbContext.Remove(restaurant);
             await dbContext.SaveChangesAsync();
@@ -27,17 +27,17 @@ namespace Restaurants.Infrastructure.Repositories
 
         public async Task<IEnumerable<Restaurant>> GetAllAsync()
         {
-            var restaurants = await dbContext.Restaurants.ToListAsync();
+            var restaurants = await dbContext.Restaurants.Include(x=>x.Dishes).ToListAsync();
             return restaurants;
         }
 
-        public async Task<Restaurant?> GetById(int id)
+        public async Task<Restaurant?> GetByIdAsync(int id)
         {
-            var restaurant = await dbContext.Restaurants.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var restaurant = await dbContext.Restaurants.Include(x => x.Dishes).Where(x => x.Id == id).FirstOrDefaultAsync();
             return restaurant;
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();
         }
