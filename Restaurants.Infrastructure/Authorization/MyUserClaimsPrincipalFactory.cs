@@ -20,12 +20,12 @@ namespace Restaurants.Infrastructure.Authorization
 
             if (user.Nationality != null)
             {
-                id.AddClaim(new Claim("Nationality", user.Nationality));
+                id.AddClaim(new Claim(ConstantNames.Nationality, user.Nationality));
             }
 
             if (user.DateOfBirth != null)
             {
-                id.AddClaim(new Claim("DateOfBirth", user.DateOfBirth.Value.ToString()));
+                id.AddClaim(new Claim(ConstantNames.DateOfBirth, user.DateOfBirth.Value.ToString()));
             }
 
             return new ClaimsPrincipal(id);
