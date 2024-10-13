@@ -15,6 +15,7 @@ namespace Restaurants.Application.Restaurants.Dtos
         public string PostalCode { get; set; } = default!;
         public string ContactEmail { get; set; } = default!;
         public string ContactNumber { get; set; } = default!;
+        public string OwnerId { get; set; } = default!;
         public List<DishDto> Dishes { get; set; } = [];
 
     }

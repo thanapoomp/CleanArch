@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurants.Domain.Entities.Identities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,7 @@ namespace Restaurants.Domain.Entities
         public string ContactNumber { get; set; } = default!;
         public Address? Address { get; set; }
         public List<Dish> Dishes { get; set; } = new();
+        public User Owner { get; set; } = default!;
+        public string OwnerId { get; set; } = default!;
     }
 }
