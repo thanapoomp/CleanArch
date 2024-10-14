@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace Restaurants.Infrastructure.Repositories
 {
@@ -31,16 +28,27 @@ namespace Restaurants.Infrastructure.Repositories
             return restaurants;
         }
 
-        public async Task<(IEnumerable<Restaurant>,int)> GetAllMatchingAsync(string? searchText, int pageSize, int pageNumber)
+        public async Task<(IEnumerable<Restaurant>,int)> GetAllMatchingAsync(string? searchText, 
+            int pageSize, 
+            int pageNumber, 
+            string? sortBy, 
+            string? sortDirection)
         {
             var searchTextLower = searchText?.ToLower();
 
+            //query
             var baseQuery = dbContext.Restaurants
                 .Where(x => searchTextLower == null || (x.Description.ToLower().Contains(searchTextLower)
                                                         || x.Name.ToLower().Contains(searchTextLower)))
-                .Include(x => x.Dishes);
+                .Include(x => x.Dishes).AsQueryable();
 
             var totalCount = await baseQuery.CountAsync();
+
+            //sorting
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                baseQuery = baseQuery.OrderBy(sortBy + " " + sortDirection);
+             };
 
             var restaurants = await baseQuery
                 .Skip(pageSize * (pageNumber -1))

@@ -7,17 +7,23 @@ using System.Threading.Tasks;
 
 namespace Restaurants.Application.Common
 {
-    public class PageResult<T>
+    public class PaginatedResult<T>
     {
-        public PageResult(IEnumerable<T> items, int totalCount,int pageSize,int pageNumber)
+        public int PageSize { get; set; }
+        public PaginatedResult(IEnumerable<T> items, int totalCount,int pageSize,int pageNumber)
         {
             Items = items;
             TotalItemsCount = totalCount;
             TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-            ItemsFrom = pageSize * (pageNumber - 1) + 1;
-            ItemsTo = ItemsFrom + pageSize - 1;
-            PageNumber = pageNumber;
-            PageIndex = pageNumber -1;
+            PageSize = pageSize;
+            if (Items.Count() > 0)
+            {
+                ItemsFrom = pageSize * (pageNumber - 1) + 1;
+                ItemsTo = ItemsFrom + pageSize - 1;
+                ItemsTo = (ItemsTo > TotalItemsCount) ? TotalItemsCount : ItemsTo;
+                PageNumber = pageNumber;
+                PageIndex = pageNumber - 1;
+            }
         }
         public IEnumerable<T>  Items { get; set; }
         public int TotalPages { get; set; }
